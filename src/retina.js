@@ -60,14 +60,7 @@
 	
 	//修正原型链指向
 	Struct.fn.init.prototype=Struct.fn;
-	
-	//将原型上的方法属性再绑定到构造函数上，以实现直接调用
-	var prop,
-		fn=Struct.fn;
-	for(prop in fn){
-		Struct[prop]=fn[prop];
-	}
-	
+
 	Struct.isRetina=(function(){
 		var mediaQuery="(-webkit-min-device-pixel-ratio: 1.5),\
                       (min--moz-device-pixel-ratio: 1.5),\
@@ -92,7 +85,7 @@
 
 	var inited,
 		myInit=function(){
-			inited=inited||Struct.init();
+			inited=inited||Struct();
 		}
 	
 	Struct.isRetina && (ROOT.addEventListener ? (ROOT.addEventListener('DOMContentLoaded',myInit,false), ROOT.addEventListener('load',myInit,false)) : ROOT.attachEvent('onload',myInit));
