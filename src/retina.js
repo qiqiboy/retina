@@ -78,16 +78,16 @@
                       (min-resolution: 1.5dppx)";
 
 		if(ROOT.devicePixelRatio>1){
-		  return true;
+			return true;
 		}
 		if(ROOT.matchMedia && ROOT.matchMedia(mediaQuery).matches){
-		  return true;
+			return true;
 		}
-		if(!isNaN(screen.logicalXDPI) && !isNaN(screen.systemXDPI)){
-			return Math.round((screen.deviceXDPI/screen.logicalXDPI)*100)/100>1.5;
+		if(!isNaN(ROOT.screen.logicalXDPI) && !isNaN(ROOT.screen.systemXDPI)){
+			return Math.round((ROOT.screen.deviceXDPI/ROOT.screen.logicalXDPI)*100)/100>1.5;
 		}
 		if(ROOT.navigator.msMaxTouchPoints){
-			return Math.round((document.documentElement.offsetHeight/window.innerHeight)*100)/100>1.5;
+			return Math.round((document.documentElement.offsetHeight/ROOT.innerHeight)*100)/100>1.5;
 		}
 		return false;
 	})();
