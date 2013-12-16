@@ -28,8 +28,7 @@
 			return this.applyRetina();
 		},
 		applyRetina:function(){
-			var self=this;
-			this.each(function(){
+			return this.each(function(){
 				var img=this,
 					src=img.getAttribute('src'),
 					rSrc=img.getAttribute('data-retina') || src.replace(/\.(\w+)$/, "@2x.$1"),
@@ -46,7 +45,6 @@
 					}
 				}
 			});
-			return this;
 		},
 		each:function(func){
 			var images=this.images,
