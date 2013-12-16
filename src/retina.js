@@ -31,13 +31,14 @@
 			return this.each(function(){
 				var img=this,
 					src=img.getAttribute('src'),
-					rSrc=img.getAttribute('data-retina') || src.replace(/\.(\w+)$/, "@2x.$1"),
+					rSrc=img.getAttribute('data-retina') || src.replace(/(\.)(\w+)|()(\b)$/, "@2x$1$2"),
 					cache;
 				if(!img.retina && src!=rSrc){
 					cache=new Image();
 					cache.src=rSrc;
 					if(cache.complete){
 						img.src=rSrc;
+						img.retina=true;
 					}else cache.onload=cache.onreadystatechange=function(){
 						if(cache&&cache.readyState&&cache.readyState!='loaded'&&cache.readyState!='complete'&&(!cache.width||cache.width*cache.height<1024)){return}
 						img.src=rSrc;
