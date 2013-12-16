@@ -77,10 +77,10 @@
 			return true;
 		}
 		if(!isNaN(ROOT.screen.logicalXDPI) && !isNaN(ROOT.screen.systemXDPI)){
-			return Math.round((ROOT.screen.deviceXDPI/ROOT.screen.logicalXDPI)*100)/100>1.5;
+			return Math.round((ROOT.screen.deviceXDPI/ROOT.screen.logicalXDPI)*100)/100>=1.5;
 		}
 		if(ROOT.navigator.msMaxTouchPoints){
-			return Math.round((document.documentElement.offsetHeight/ROOT.innerHeight)*100)/100>1.5;
+			return Math.round((document.documentElement.offsetHeight/ROOT.innerHeight)*100)/100>=1.5;
 		}
 		return false;
 	})();
