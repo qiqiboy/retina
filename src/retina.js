@@ -31,7 +31,7 @@
 			return this.each(function(){
 				var img=this,
 					src=img.getAttribute('src'),
-					rSrc=img.getAttribute('data-retina') || src.replace(/(\.)(\w+)|()(\b)$/, "@2x$1$2"),
+					rSrc=img.getAttribute('data-retina') || src.replace(/(\.)(\w+)$|()(\b)$/, "@2x$1$2"),
 					cache;
 				if(!img.retina && src!=rSrc){
 					cache=new Image();
