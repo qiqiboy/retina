@@ -33,7 +33,7 @@
 					src=img.getAttribute('src'),
 					rSrc=img.getAttribute('data-retina') || src.replace(/\.(\w+)$/, "@2x.$1"),
 					cache;
-				if(src!=rSrc){
+				if(!img.retina && src!=rSrc){
 					cache=new Image();
 					cache.src=rSrc;
 					if(cache.complete){
@@ -41,6 +41,7 @@
 					}else cache.onload=cache.onreadystatechange=function(){
 						if(cache&&cache.readyState&&cache.readyState!='loaded'&&cache.readyState!='complete'&&(!cache.width||cache.width*cache.height<1024)){return}
 						img.src=rSrc;
+						img.retina=true;
 						cache=cache.onload=cache.onreadystatechange=null;
 					}
 				}
