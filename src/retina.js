@@ -39,7 +39,6 @@
 						img.src=rSrc;
 						style.display='none';//在图片未onload前，浏览器不会更新图片显示。这里手动引起浏览器repaint，以更新图片显示。只对webkit内核浏览器有效
 						setTimeout(function(){
-							style.display='block';
 							style.display=dp;
 						},0);
 						img.retina=true;
