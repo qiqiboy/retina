@@ -1,5 +1,5 @@
 /**
- * Retina v1.0
+ * Retina v1.1
  * By qiqiboy, http://www.qiqiboy.com, http://weibo.com/qiqiboy, 2013/12/16
  */
 ;
@@ -7,7 +7,7 @@
 	"use strict";
 
 	Struct.fn=Struct.prototype={
-		version:'1.0',
+		version:'1.1',
 		constructor:Struct,
 		init:function(node){
 			var images;
@@ -31,20 +31,12 @@
 			return this.each(function(){
 				var img=this,
 					src=img.getAttribute('src'),
-					rSrc=img.getAttribute('data-retina') || src.replace(/(\.)(\w+)$|()(\b)$/, "@2x$1$2"),
-					cache;
+					rSrc=img.getAttribute('data-retina') || src.replace(/(\.)(\w+)$|()(\b)$/, "@2x$1$2");
 				if(!img.retina && src!=rSrc){
-					cache=new Image();
-					cache.src=rSrc;
-					if(cache.complete){
+					Struct.imageReady(rSrc, function(){
 						img.src=rSrc;
 						img.retina=true;
-					}else cache.onload=cache.onreadystatechange=function(){
-						if(cache&&cache.readyState&&cache.readyState!='loaded'&&cache.readyState!='complete'&&(!cache.width||cache.width*cache.height<1024)){return}
-						img.src=rSrc;
-						img.retina=true;
-						cache=cache.onload=cache.onreadystatechange=null;
-					}
+					});
 				}
 			});
 		},
@@ -62,6 +54,67 @@
 	
 	//修正原型链指向
 	Struct.fn.init.prototype=Struct.fn;
+	
+	/**
+	 * imageReady v1.0.1
+	 * By qiqiboy, http://www.qiqiboy.com, http://weibo.com/qiqiboy, 2013/03/29
+	 */
+	Struct.imageReady=(function(){
+		var list=[],
+			timer=null,
+			prop=[['width','height'],['naturalWidth','naturalHeight']],
+			natural=Number(typeof (new Image()).naturalWidth=='number'),//是否支持HTML5新增的 naturalHeight
+			tick=function(){
+				var i=0;
+				while(i<list.length){
+					list[i].end?list.splice(i--,1):check.call(list[i]);
+					i++;
+				}
+				list.length && (timer=setTimeout(tick,50)) || (timer=null);
+			},
+			/** overflow: 检测图片尺寸的改变
+			  *  img.__width,img.__height: 初载入时的尺寸
+			  */
+			check=function(){
+				if(this[prop[natural][0]]!==this.__width || this[prop[natural][1]]!==this.__height || this[prop[natural][0]]*this[prop[natural][1]]>1024){
+					this.onready(this);
+					this.end=true;
+				}
+			};
+			
+		return function(_img, onready, onload, onerror){
+			onready=onready || new Function();
+			onload=onload || new Function();
+			onerror=onerror || new Function();
+			var img=typeof _img=='string'?new Image():_img;
+			img.onerror=function(){// ie && ie<=8 的浏览器必须在src赋予前定义onerror
+				onerror.call(img,img);
+				img.end=true;
+				img=img.onload=img.onerror=img.onreadystatechange=null;
+			}
+			if(typeof _img=='string') img.src=_img;
+			if(!img)return; //为了防止onerror触发后img=null
+			if(img.complete){
+				onready.call(img,img);
+				onload.call(img,img);
+				return;
+			}
+			img.__width=img[prop[natural][0]];
+			img.__height=img[prop[natural][1]];
+			img.onready=onready;
+			check.call(img);
+			img.onload=img.onreadystatechange=function(){
+				if(img&&img.readyState&&img.readyState!='loaded'&&img.readyState!='complete'){return;}
+				!img.end && check.call(img);
+				onload.call(img,img);
+				img=img.onload=img.onerror=img.onreadystatechange=null;
+			}
+			if(!img.end){
+				list.push(img);
+				!timer && (timer=setTimeout(tick,50));
+			}
+		}
+	})();
 
 	Struct.isRetina=(function(){
 		var mediaQuery="(-webkit-min-device-pixel-ratio: 1.5),\
