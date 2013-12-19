@@ -103,6 +103,7 @@
 			if(img.complete){
 				onready.call(img,img);
 				onload.call(img,img);
+				img=img.onerror=null;
 				return;
 			}
 			img.__width=img[prop[natural][0]];
