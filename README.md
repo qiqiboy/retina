@@ -17,5 +17,7 @@ Retina('imageID'); //Retina(document.getElementById('imageID'));
 // <div id="parentID"><img src="1.png" /><img src="2.png" /><img src="3.png" /><img src="4.png" /></div>
 Retina('parentID'); //Retina(document.getElementById('parentID'));
 
-
 ````
+
+## DEMO
+http://u.boy.im/retina
