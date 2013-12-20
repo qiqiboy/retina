@@ -82,7 +82,7 @@
 			  *  img.__width,img.__height: 初载入时的尺寸
 			  */
 			check=function(){
-				if(this.complete || this[prop[natural][0]]!==this.__width || this[prop[natural][1]]!==this.__height || this[prop[natural][0]]*this[prop[natural][1]]>1024){
+				if(this.complete || this[prop[natural][0]]!==this.__width || this[prop[natural][1]]!==this.__height || this.readyState=='loading'){
 					this.end=true;
 					this.onready(this,this);
 				}
