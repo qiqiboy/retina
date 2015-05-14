@@ -157,6 +157,6 @@
 
 	return ROOT[NS]=Struct;
 	
-})(window, function(name){
-	return new arguments.callee.fn.init(name);
+})(window, function self(name){
+	return new self.fn.init(name);
 }, 'Retina');
